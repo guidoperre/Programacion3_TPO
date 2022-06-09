@@ -15,31 +15,29 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
         resultados = new ArrayList<>();
         resultado.puestosCubiertos = new ArrayList<>();
 
-        encontrarCandidatos(vacantes, candidatos, vacantes.size());
+        encontrarCandidatos(vacantes, candidatos, 0);
 
         return resultados;
     }
 
-    private void encontrarCandidatos(List<Vacante> vacantes, List<Candidato> candidatos, int totalVacantes) {
-        for (Vacante vacante : vacantes) {
-            for (Candidato candidato : candidatos) {
-                if (candidato.calificacion >= vacante.califMinima) {
-                    List<Vacante> v = new ArrayList<>(List.copyOf(vacantes));
-                    List<Candidato> c = new ArrayList<>(List.copyOf(candidatos));
+    private void encontrarCandidatos(List<Vacante> vacantes, List<Candidato> candidatos, int nivel) {
+        for (Candidato candidato : candidatos) {
+            if (candidato.calificacion >= vacantes.get(nivel).califMinima) {
+                List<Candidato> c = new ArrayList<>(List.copyOf(candidatos));
 
-                    v.remove(vacante);
-                    c.remove(candidato);
+                c.remove(candidato);
 
-                    PuestoCubierto puesto = agregarPuestoCubierto(vacante, candidato);
+                PuestoCubierto puesto = agregarPuestoCubierto(vacantes.get(nivel), candidato);
 
-                    if (resultado.puestosCubiertos.size() == totalVacantes) {
-                        resultados.add(resultado);
-                    }
-
-                    encontrarCandidatos(v, c, totalVacantes);
-
-                    reducirPuestosCubiertos(puesto);
+                if (resultado.puestosCubiertos.size() == vacantes.size()) {
+                    resultados.add(resultado);
                 }
+
+                if (nivel < vacantes.size() - 1) {
+                    encontrarCandidatos(vacantes, c, nivel + 1);
+                }
+
+                reducirPuestosCubiertos(puesto);
             }
         }
     }
@@ -50,7 +48,7 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
         puesto.idCandidato = candidato.idCandidato;
         puesto.nombreVacante = vacante.nombreVacante;
         puesto.califVacante = vacante.califMinima;
-        resultado.idResultado = resultados.size();
+        resultado.idResultado = resultados.size() + 1;
         resultado.puestosCubiertos.add(puesto);
         return puesto;
     }
