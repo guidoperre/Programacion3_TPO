@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ResolverCandidatosImplementacion implements ResolverCandidatosInterface {
@@ -17,7 +18,22 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
 
         encontrarCandidatos(vacantes, candidatos, 0);
 
-        return resultados;
+        return new ArrayList<>(encontrarNMejores(maxCombinaciones));
+    }
+
+    private List<Resultado> encontrarNMejores(int maxCombinaciones) {
+        Resultado[] nMejores = new Resultado[resultados.size()];
+        nMejores = resultados.toArray(nMejores);
+
+        // TODO: Se puede mejorar complejidad temporal de esto de O(n.logn) a una promedio de O(n) si usamos k-esimo
+        new QuickSort().quickSort(nMejores, 0, nMejores.length - 1);
+
+        try {
+            return Arrays.asList(nMejores).subList(0, maxCombinaciones - 1);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("ADVERTENCIA: Solo existen " + nMejores.length + " combinaciones.");
+            return Arrays.asList(nMejores);
+        }
     }
 
     private void encontrarCandidatos(List<Vacante> vacantes, List<Candidato> candidatos, int nivel) {
@@ -58,5 +74,13 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
         resultado = new Resultado();
         aux.remove(puesto);
         resultado.puestosCubiertos = aux;
+    }
+
+    public static int calificacionTotal(Resultado resultado) {
+        int total = 0;
+        for (PuestoCubierto puesto : resultado.puestosCubiertos) {
+            total += puesto.calificacionCandidato;
+        }
+        return total;
     }
 }

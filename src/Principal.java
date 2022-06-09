@@ -4,6 +4,7 @@ public class Principal {
 
     public static void main(String[] args) {
         imprimirResultados("Ejemplo 1", ejemplo1());
+        System.out.println("---------------------------");
         imprimirResultados("Ejemplo 2", ejemplo2());
     }
 
@@ -29,6 +30,8 @@ public class Principal {
         candidatos.add(crearCandidato(1, 15));
         candidatos.add(crearCandidato(2, 12));
         candidatos.add(crearCandidato(3, 9));
+        candidatos.add(crearCandidato(4, 3));
+        candidatos.add(crearCandidato(5, 5));
         return candidatos;
     }
 
@@ -90,10 +93,16 @@ public class Principal {
                     System.out.print("[" + puesto.idCandidato + "]");
                 }
                 System.out.println();
+                for (PuestoCubierto puesto : resultado.puestosCubiertos) {
+                    System.out.print("[" + puesto.calificacionCandidato + "]");
+                }
+                System.out.println();
+                int total = ResolverCandidatosImplementacion.calificacionTotal(resultado);
+                System.out.println("Puntuacion total: " + total);
                 System.out.println();
             }
         } else {
-            System.out.println("No hay resultados");
+            System.out.println("No hay resultados.");
         }
     }
 }
