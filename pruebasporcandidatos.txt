@@ -1,0 +1,29 @@
+Inicio muestra 1 20:13:18:1318
+Fin muestra 1 20:13:18:1318
+
+Inicio muestra 2 20:13:18:1318
+Fin muestra 2 20:13:18:1318
+
+Inicio muestra 3 20:13:18:1318
+Fin muestra 3 20:13:18:1318
+
+Inicio muestra 4 20:13:18:1318
+Fin muestra 4 20:13:19:1319
+
+Inicio muestra 5 20:13:19:1319
+Fin muestra 5 20:13:25:1325
+
+Inicio muestra 6 20:13:25:1325
+Fin muestra 6 20:13:30:1330
+
+Inicio muestra 7 20:13:30:1330
+Fin muestra 7 20:13:47:1347
+
+Inicio muestra 8 20:13:47:1347
+Fin muestra 8 20:15:32:1532
+
+Inicio muestra 9 20:15:32:1532
+Fin muestra 9 20:15:36:1536
+
+Inicio muestra 10 20:15:36:1536
+Fin muestra 10 20:21:06:216
