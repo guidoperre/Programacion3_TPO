@@ -25,11 +25,10 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
         Resultado[] nMejores = new Resultado[resultados.size()];
         nMejores = resultados.toArray(nMejores);
 
-        // TODO: Se puede mejorar complejidad temporal de esto de O(n.logn) a una promedio de O(n) si usamos k-esimo
-        new QuickSort().quickSort(nMejores, 0, nMejores.length - 1);
+        new QuickSort().quickSort(nMejores, 0, nMejores.length - 1, maxCombinaciones);
 
         try {
-            return Arrays.asList(nMejores).subList(0, maxCombinaciones - 1);
+            return Arrays.asList(nMejores).subList(0, maxCombinaciones);
         } catch (IndexOutOfBoundsException e) {
             System.out.println("ADVERTENCIA: Solo existen " + nMejores.length + " combinaciones.");
             return Arrays.asList(nMejores);
@@ -37,19 +36,15 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
     }
 
     private void encontrarCandidatos(List<Vacante> vacantes, List<Candidato> candidatos, int nivel) {
-        for (Candidato candidato : candidatos) {
-            if (candidato.calificacion >= vacantes.get(nivel).califMinima) {
-                List<Candidato> c = new ArrayList<>(List.copyOf(candidatos));
-
-                c.remove(candidato);
-
-                PuestoCubierto puesto = agregarPuestoCubierto(vacantes.get(nivel), candidato);
+        for (int i = 0; i < candidatos.size(); i++) {
+            if (candidatos.get(i).calificacion >= vacantes.get(nivel).califMinima) {
+                PuestoCubierto puesto = agregarPuestoCubierto(vacantes.get(nivel), candidatos.get(i));
 
                 if (resultado.puestosCubiertos.size() == vacantes.size()) {
                     resultados.add(resultado);
-                }
-
-                if (nivel < vacantes.size() - 1) {
+                } else if (vacantes.size() - resultado.puestosCubiertos.size() < candidatos.size()) {
+                    List<Candidato> c = new ArrayList<>(List.copyOf(candidatos));
+                    c.remove(candidatos.get(i));
                     encontrarCandidatos(vacantes, c, nivel + 1);
                 }
 

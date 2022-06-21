@@ -1,11 +1,14 @@
 public class QuickSort {
 
-    public void quickSort(Resultado[] arr, int begin, int end) {
+    public void quickSort(Resultado[] arr, int begin, int end, int n) {
         if (begin < end) {
             int partitionIndex = partition(arr, begin, end);
 
-            quickSort(arr, begin, partitionIndex-1);
-            quickSort(arr, partitionIndex+1, end);
+            if (partitionIndex < n) {
+                quickSort(arr, partitionIndex + 1, end, n);
+            } else if (partitionIndex > n) {
+                quickSort(arr, begin, partitionIndex - 1, n);
+            }
         }
     }
 
