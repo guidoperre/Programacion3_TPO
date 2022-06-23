@@ -7,6 +7,7 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
     private ArrayList<Resultado> resultados;
     private Resultado resultado = new Resultado();
     private int indiceValorMaximo = 0;
+    private static int idResultados = 0;
 
     @Override
     public ArrayList<Resultado> obtenerCandidatos(
@@ -48,8 +49,15 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
 
     private void intentarAgregar(int maxCombinaciones) {
         int resultadoTotal = calificacionTotal(resultado);
+
+        // Aca verificamos q el tamaño de resultado es = MAX
         if (resultados.size() >= maxCombinaciones) {
-            resultados.set(indiceValorMaximo, resultado);
+
+            //Reemplazamos en el indice del valor max
+            if (resultadoTotal < calificacionTotal(resultados.get(indiceValorMaximo))) {
+                resultados.set(indiceValorMaximo, resultado);
+            }
+            //busco el nuevo IndiceMax
             int valorMaximo = 0;
             int aux = -1;
             for (int i = 0; i < resultados.size(); i++) {
@@ -74,9 +82,14 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
         puesto.idCandidato = candidato.idCandidato;
         puesto.nombreVacante = vacante.nombreVacante;
         puesto.califVacante = vacante.califMinima;
-        resultado.idResultado = resultados.size() + 1;
+        resultado.idResultado = ResolverCandidatosImplementacion.nextID();
         resultado.puestosCubiertos.add(puesto);
         return puesto;
+    }
+
+    private static int nextID() {
+        idResultados ++;
+        return idResultados -1;
     }
 
     private void reducirPuestosCubiertos(PuestoCubierto puesto) {

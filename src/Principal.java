@@ -8,6 +8,8 @@ public class Principal {
         imprimirResultados("Ejemplo 2", ejemplo2());
         System.out.println("---------------------------");*/
         imprimirResultados("Ejemplo 3", ejemplo3());
+        //System.out.println("---------------------------");
+        //imprimirResultados("Ejemplo 4", ejemplo4());
     }
 
     public static ArrayList<Resultado> ejemplo1() {
@@ -64,12 +66,17 @@ public class Principal {
         return candidatos;
     }
 
-
+    /*
+     * Crea 120 combinacion
+     * 60 son combinaciones validas
+     * Las 2 mejores tienen calificacion 24 y 24 puntos
+     * (Falla)
+     */
     public static ArrayList<Resultado> ejemplo3() {
         ResolverCandidatosImplementacion encontrarCandidatos = new ResolverCandidatosImplementacion();
         ArrayList<Vacante> vacantes = crearVacantes3();
         ArrayList<Candidato> candidatos = crearCandidatos3();
-        int maxCombinaciones = 2;
+        int maxCombinaciones = 6;
 
         return encontrarCandidatos.obtenerCandidatos(vacantes, candidatos, maxCombinaciones);
     }
@@ -84,15 +91,42 @@ public class Principal {
 
     private static ArrayList<Candidato> crearCandidatos3() {
         ArrayList<Candidato> candidatos = new ArrayList<>();
-        candidatos.add(crearCandidato(1, 15));
-        candidatos.add(crearCandidato(2, 12));
-        candidatos.add(crearCandidato(3, 9));
-        candidatos.add(crearCandidato(4, 4));
-        candidatos.add(crearCandidato(5, 8));
+        candidatos.add(crearCandidato(1, 12));
+        candidatos.add(crearCandidato(2, 4));
+        candidatos.add(crearCandidato(3, 8));
+        candidatos.add(crearCandidato(4, 15));
+        candidatos.add(crearCandidato(5, 9));
         candidatos.add(crearCandidato(6, 17));
         return candidatos;
     }
 
+
+    public static ArrayList<Resultado> ejemplo4() {
+        ResolverCandidatosImplementacion encontrarCandidatos = new ResolverCandidatosImplementacion();
+        ArrayList<Vacante> vacantes = crearVacantes4();
+        ArrayList<Candidato> candidatos = crearCandidatos4();
+        int maxCombinaciones = 6;
+
+        return encontrarCandidatos.obtenerCandidatos(vacantes, candidatos, maxCombinaciones);
+    }
+
+    private static ArrayList<Vacante> crearVacantes4() {
+        ArrayList<Vacante> vacantes = new ArrayList<>();
+        vacantes.add(crearVacante("A", 10));
+        vacantes.add(crearVacante("B", 0));
+        vacantes.add(crearVacante("C", 0));
+        return vacantes;
+    }
+
+    private static ArrayList<Candidato> crearCandidatos4() {
+        ArrayList<Candidato> candidatos = new ArrayList<>();
+        candidatos.add(crearCandidato(1, 15));
+        candidatos.add(crearCandidato(2, 12));
+        candidatos.add(crearCandidato(3, 9));
+        candidatos.add(crearCandidato(4, 4));
+
+        return candidatos;
+    }
 
     static Vacante crearVacante(String nombreVacante, int califMinima) {
         Vacante vacante = new Vacante();
