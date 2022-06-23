@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="ProyectoTPO1C_Miercoles-2022">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../ProyectoTPO1C_Miercoles-2022.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/ProyectoTPO1C_Miercoles-2022.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/LibreriaTPO1C_Miercoles-2022.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../ProyectoTPO1C_Miercoles-2022.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/ProyectoTPO1C_Miercoles-2022.jar!/" />
     </SOURCES>
   </library>
 </component>

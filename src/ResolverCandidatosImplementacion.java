@@ -6,6 +6,7 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
 
     private ArrayList<Resultado> resultados;
     private Resultado resultado = new Resultado();
+    private int indiceValorMaximo = 0;
 
     @Override
     public ArrayList<Resultado> obtenerCandidatos(
@@ -16,39 +17,53 @@ public class ResolverCandidatosImplementacion implements ResolverCandidatosInter
         resultados = new ArrayList<>();
         resultado.puestosCubiertos = new ArrayList<>();
 
-        encontrarCandidatos(vacantes, candidatos, 0);
+        encontrarCandidatos(vacantes, candidatos, maxCombinaciones, 0);
 
-        return new ArrayList<>(encontrarNMejores(maxCombinaciones));
+        return resultados;
     }
 
-    private List<Resultado> encontrarNMejores(int maxCombinaciones) {
-        Resultado[] nMejores = new Resultado[resultados.size()];
-        nMejores = resultados.toArray(nMejores);
-
-        new QuickSort().quickSort(nMejores, 0, nMejores.length - 1, maxCombinaciones);
-
-        try {
-            return Arrays.asList(nMejores).subList(0, maxCombinaciones);
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("ADVERTENCIA: Solo existen " + nMejores.length + " combinaciones.");
-            return Arrays.asList(nMejores);
-        }
-    }
-
-    private void encontrarCandidatos(List<Vacante> vacantes, List<Candidato> candidatos, int nivel) {
+    private void encontrarCandidatos(List<Vacante> vacantes, List<Candidato> candidatos, int maxCombinaciones, int nivel) {
         for (int i = 0; i < candidatos.size(); i++) {
             if (candidatos.get(i).calificacion >= vacantes.get(nivel).califMinima) {
                 PuestoCubierto puesto = agregarPuestoCubierto(vacantes.get(nivel), candidatos.get(i));
 
                 if (resultado.puestosCubiertos.size() == vacantes.size()) {
-                    resultados.add(resultado);
-                } else if (vacantes.size() - resultado.puestosCubiertos.size() < candidatos.size()) {
+                    intentarAgregar(maxCombinaciones);
+                } else if (
+                    vacantes.size() - resultado.puestosCubiertos.size() < candidatos.size() &&
+                    !(
+                        resultados.size() == maxCombinaciones &&
+                        calificacionTotal(resultado) > calificacionTotal(resultados.get(indiceValorMaximo))
+                    )
+                ) {
                     List<Candidato> c = new ArrayList<>(List.copyOf(candidatos));
                     c.remove(candidatos.get(i));
-                    encontrarCandidatos(vacantes, c, nivel + 1);
+                    encontrarCandidatos(vacantes, c, maxCombinaciones, nivel + 1);
                 }
 
                 reducirPuestosCubiertos(puesto);
+            }
+        }
+    }
+
+    private void intentarAgregar(int maxCombinaciones) {
+        int resultadoTotal = calificacionTotal(resultado);
+        if (resultados.size() >= maxCombinaciones) {
+            resultados.set(indiceValorMaximo, resultado);
+            int valorMaximo = 0;
+            int aux = -1;
+            for (int i = 0; i < resultados.size(); i++) {
+                int iTotal = calificacionTotal(resultados.get(i));
+                if (iTotal > valorMaximo) {
+                    valorMaximo = iTotal;
+                    aux = i;
+                }
+            }
+            indiceValorMaximo = aux;
+        } else {
+            resultados.add(resultado);
+            if (resultadoTotal > calificacionTotal(resultados.get(indiceValorMaximo))) {
+                indiceValorMaximo = resultados.size() - 1;
             }
         }
     }

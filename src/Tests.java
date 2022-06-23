@@ -10,7 +10,7 @@ public class Tests {
     }
 
     public static void testPorCandidatos() {
-        int muestras = 25;
+        int muestras = 150;
         int candidatos = 10;
 
         for (int i = 1; i <= muestras; i++) {
@@ -59,7 +59,7 @@ public class Tests {
          ArrayList<Candidato> candidatos = new ArrayList<>();
          int i = 0;
          while (i < cantidad) {
-             candidatos.add(crearCandidato(i, ThreadLocalRandom.current().nextInt(0,  15)));
+             candidatos.add(crearCandidato(i, ThreadLocalRandom.current().nextInt(0,  10)));
              i++;
          }
          return candidatos;
